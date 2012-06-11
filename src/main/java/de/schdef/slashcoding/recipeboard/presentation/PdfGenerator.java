@@ -14,7 +14,7 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
-import de.schdef.slashcoding.recipeboard.dao.ChefkochDao;
+import de.schdef.slashcoding.recipeboard.dao.DummyRecipeDao;
 import de.schdef.slashcoding.recipeboard.dao.RecipeDao;
 import de.schdef.slashcoding.recipeboard.domain.Ingredient;
 import de.schdef.slashcoding.recipeboard.domain.Recipe;
@@ -30,9 +30,9 @@ public class PdfGenerator {
 	public static void main(String[] args) throws DocumentException,
 			MalformedURLException, IOException {
 
-		// RecipeDao<Recipe> dao = new DummyRecipeDao();
-		// RecipeDao<Recipe> dao = new UrlBasedDummyRecipeDao();
-		RecipeDao<Recipe> dao = new ChefkochDao();
+		 RecipeDao<Recipe> dao = new DummyRecipeDao();
+//		 RecipeDao<Recipe> dao = new UrlBasedDummyRecipeDao();
+//		RecipeDao<Recipe> dao = new ChefkochDao();
 
 		// TODO Auto-generated method stub
 		// Document document = new Document(PageSize.A4, 50, 50, 50, 50);
