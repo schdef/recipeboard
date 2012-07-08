@@ -1,9 +1,11 @@
 package de.schdef.slashcoding.recipeboard.presentation;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.util.List;
+
+import org.apache.commons.io.output.ByteArrayOutputStream;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -14,12 +16,19 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
-import de.schdef.slashcoding.recipeboard.dao.DummyRecipeDao;
+import de.schdef.slashcoding.recipeboard.dao.ChefkochDao;
 import de.schdef.slashcoding.recipeboard.dao.RecipeDao;
 import de.schdef.slashcoding.recipeboard.domain.Ingredient;
 import de.schdef.slashcoding.recipeboard.domain.Recipe;
+import de.schdef.slashcoding.recipeboard.presentation.web.ThirdPartyCredential;
 
 public class PdfGenerator {
+
+	private final ThirdPartyCredential thirdPartyCredential;
+
+	public PdfGenerator(ThirdPartyCredential thirdPartyCredential) {
+		this.thirdPartyCredential = thirdPartyCredential;
+	}
 
 	/**
 	 * @param args
@@ -29,17 +38,34 @@ public class PdfGenerator {
 	 */
 	public static void main(String[] args) throws DocumentException,
 			MalformedURLException, IOException {
+//		ThirdPartyCredential thirdPartyCredential = new ThirdPartyCredential(
+//				UserUtil.getProperties().getProperty("username"), UserUtil
+//						.getProperties().getProperty("password"));
+		ThirdPartyCredential thirdPartyCredential = new ThirdPartyCredential("kochhelden", "Thai2Curry");
+		new PdfGenerator(thirdPartyCredential).generate(null);
+	}
 
-		 RecipeDao<Recipe> dao = new DummyRecipeDao();
-//		 RecipeDao<Recipe> dao = new UrlBasedDummyRecipeDao();
-//		RecipeDao<Recipe> dao = new ChefkochDao();
+	public OutputStream generate(OutputStream outputStream)
+			throws DocumentException, MalformedURLException, IOException {
+		RecipeDao<Recipe> dao = null;
+		// if (this.thirdPartyCredential == null) {
+		// dao = new DummyRecipeDao();
+//		 dao = new UrlBasedDummyRecipeDao();
+		// } else {
+		dao = new ChefkochDao(thirdPartyCredential);
+		// }
 
 		// TODO Auto-generated method stub
 		// Document document = new Document(PageSize.A4, 50, 50, 50, 50);
 		Document document = new Document();
 
-		PdfWriter writer = PdfWriter.getInstance(document,
-				new FileOutputStream("E:\\ITextTest.pdf"));
+		// PdfWriter writer = PdfWriter.getInstance(document,
+		// new FileOutputStream("E:\\ITextTest.pdf"));
+		if (outputStream == null) {
+			outputStream = new ByteArrayOutputStream();
+		}
+		PdfWriter writer = PdfWriter.getInstance(document, outputStream);
+
 		// document.setPageSize(PageSize.A4.rotate());
 
 		document.open();
@@ -157,5 +183,6 @@ public class PdfGenerator {
 
 		document.close();
 
+		return outputStream;
 	}
 }

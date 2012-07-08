@@ -7,18 +7,31 @@
 				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
 				http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd">
 
-	<context:component-scan base-package="de.schdef.slashcoding.recipeboard.presentation" />
+	<context:component-scan
+		base-package="de.schdef.slashcoding.recipeboard.presentation.web" />
 
-	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver" />
-	
-	
-	<bean id="recipeboardXmlView"
-		class="org.springframework.web.servlet.view.xml.MarshallingView">
-		<constructor-arg>
-			<bean class="org.springframework.oxm.xstream.XStreamMarshaller">
-				<property name="autodetectAnnotations" value="true"/>
-			</bean>
-		</constructor-arg>
+
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView"></property>
+		<property name="prefix" value="/WEB-INF/jsp/"></property>
+		<property name="suffix" value=".jsp"></property>
 	</bean>
+	<!--
+		<bean name="/generate.htm"
+		class="de.schdef.slashcoding.recipeboard.presentation.web.GenerateController"
+		/> <bean
+		class="org.springframework.web.servlet.view.BeanNameViewResolver" />
+	-->
+	<!--
 
+
+		<bean id="recipeboardXmlView"
+		class="org.springframework.web.servlet.view.xml.MarshallingView">
+		<constructor-arg> <bean
+		class="org.springframework.oxm.xstream.XStreamMarshaller"> <property
+		name="autodetectAnnotations" value="true"/> </bean> </constructor-arg>
+		</bean>
+	-->
 </beans>

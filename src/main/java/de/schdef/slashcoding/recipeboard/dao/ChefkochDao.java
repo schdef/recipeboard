@@ -7,21 +7,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.jaxen.JaxenException;
-
 import de.schdef.slashcoding.recipeboard.domain.Recipe;
-import de.schdef.slashcoding.recipeboard.util.UserUtil;
+import de.schdef.slashcoding.recipeboard.presentation.web.ThirdPartyCredential;
 
 public class ChefkochDao implements RecipeDao<Recipe> {
+
+	private final ThirdPartyCredential thirdPartyCredential;
+
+	public ChefkochDao(ThirdPartyCredential thirdPartyCredential) {
+		this.thirdPartyCredential = thirdPartyCredential;
+	}
 
 	@Override
 	public List<Recipe> findAll() {
 		ChefkochLogin login = new ChefkochLogin();
 		List<Recipe> result = new ArrayList<Recipe>();
 		try {
-			String username = UserUtil.getProperties().getProperty("username");
-			String password = UserUtil.getProperties().getProperty("password");
-			Set<URL> myCookbook = login.getMyCookbook(username, password);
+			Set<URL> myCookbook = login.getMyCookbook(thirdPartyCredential.getUsername(), thirdPartyCredential.getPassword());
 			ChefkochGrabber2 grabber = new ChefkochGrabber2();
 			for (URL url : myCookbook) {
 				Recipe recipe;
@@ -38,9 +40,6 @@ public class ChefkochDao implements RecipeDao<Recipe> {
 				
 			}
 			
-		} catch (JaxenException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
