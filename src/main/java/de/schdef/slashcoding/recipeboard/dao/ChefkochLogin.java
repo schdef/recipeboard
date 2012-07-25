@@ -55,7 +55,10 @@ public class ChefkochLogin {
 		final HtmlPage page2 = (HtmlPage) button.click();
 		HtmlPage page3 = (HtmlPage) webClient
 				.getPage("http://www.chefkoch.de/mychefkoch/kochbuch/");
-
+		System.out.println("----------------------------------------------");
+		System.out.println("MyKochbuch: " + page3.asXml());
+		System.out.println("----------------------------------------------");
+		
 		Set<URL> urlList = new HashSet<URL>();
 
 		HtmlTable table = (HtmlTable) page3.getHtmlElementById("recipe_list");

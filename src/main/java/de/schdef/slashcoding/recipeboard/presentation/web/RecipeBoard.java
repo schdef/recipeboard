@@ -1,5 +1,7 @@
 package de.schdef.slashcoding.recipeboard.presentation.web;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,7 +11,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 
+import de.schdef.slashcoding.recipeboard.dao.ChefkochDao;
 import de.schdef.slashcoding.recipeboard.dao.DummyRecipeDao;
+import de.schdef.slashcoding.recipeboard.dao.RecipeDao;
 import de.schdef.slashcoding.recipeboard.domain.Recipe;
 
 @Controller
@@ -19,11 +23,12 @@ public class RecipeBoard {
 	@RequestMapping(value = "/")
 	public @ResponseBody String test() {
 		System.out.println("Hallo");
-		DummyRecipeDao dao = new DummyRecipeDao();
-		Recipe recipe = dao.findAll().get(0);
+//		DummyRecipeDao dao = new DummyRecipeDao();
+		RecipeDao<Recipe> dao = new ChefkochDao(new ThirdPartyCredential("kochhelden", "Thai2Curry"));
+		List<Recipe> all = dao.findAll();
 		
 		Gson gson = new Gson();
-		String jSon = gson.toJson(recipe);
+		String jSon = gson.toJson(all);
 
 		System.out.println(jSon);
 		
