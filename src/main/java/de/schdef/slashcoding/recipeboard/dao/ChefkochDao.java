@@ -20,7 +20,7 @@ public class ChefkochDao implements RecipeDao<Recipe> {
 
 	@Override
 	public List<Recipe> findAll() {
-		ChefkochLogin login = new ChefkochLogin();
+		ChefkochHtmlUnitLogin login = new ChefkochHtmlUnitLogin();
 		List<Recipe> result = new ArrayList<Recipe>();
 		try {
 			Set<URL> myCookbook = login.getMyCookbook(thirdPartyCredential.getUsername(), thirdPartyCredential.getPassword());

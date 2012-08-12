@@ -27,6 +27,8 @@ public class RecipeBoard {
 		RecipeDao<Recipe> dao = new ChefkochDao(new ThirdPartyCredential("kochhelden", "Thai2Curry"));
 		List<Recipe> all = dao.findAll();
 		
+		
+		
 		Gson gson = new Gson();
 		String jSon = gson.toJson(all);
 

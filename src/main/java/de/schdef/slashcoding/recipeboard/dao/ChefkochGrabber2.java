@@ -11,15 +11,25 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import com.google.gson.Gson;
+
 import de.schdef.slashcoding.recipeboard.domain.Ingredient;
 import de.schdef.slashcoding.recipeboard.domain.Recipe;
 
 public class ChefkochGrabber2 {
 
 	public static void main(String[] args) throws Exception {
+//		URL url = new URL(
+//				"http://www.chefkoch.de/rezepte/1045401209466865/Afrikanische-Erdnuss-Lauch-Suppe.html");
 		URL url = new URL(
-				"http://www.chefkoch.de/rezepte/1045401209466865/Afrikanische-Erdnuss-Lauch-Suppe.html");
-		new ChefkochGrabber2().grab(url);
+		"http://www.chefkoch.de/rezepte/1151391221393105/Spaetzle.html");
+		
+		Recipe grab = new ChefkochGrabber2().grab(url);
+		System.out.println(grab.getTitle());
+		
+		Gson gson = new Gson();
+		String jSon = gson.toJson(grab.getTitle());
+		System.out.println(jSon);
 	}
 
 	public Recipe grab(URL url) throws MalformedURLException, IOException {
